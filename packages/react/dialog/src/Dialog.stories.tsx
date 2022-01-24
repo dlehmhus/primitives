@@ -219,7 +219,7 @@ export const ForcedMount = () => (
     </DialogPortal>
   </Dialog>
 );
-ForcedMount.parameters = { chromatic: { disable: false } };
+ForcedMount.parameters = { chromatic: { disable: false, delay: 100 } };
 
 export const AllowPinchZoom = () => (
   <div style={{ display: 'grid', placeItems: 'center', height: '200vh' }}>
