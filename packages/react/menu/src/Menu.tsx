@@ -96,7 +96,7 @@ const Menu: React.FC<MenuProps> = (props: ScopedProps<MenuProps>) => {
   const [content, setContent] = React.useState<MenuContentElement | null>(null);
   const isUsingKeyboardRef = React.useRef(false);
   const handleOpenChange = useCallbackRef(onOpenChange);
-  const direction = useDirection(dir);
+  const direction = useDirection() || dir || 'ltr';
 
   React.useEffect(() => {
     const handleKeyDown = () => (isUsingKeyboardRef.current = true);
@@ -119,7 +119,7 @@ const Menu: React.FC<MenuProps> = (props: ScopedProps<MenuProps>) => {
         scope={__scopeMenu}
         isSubmenu={false}
         isUsingKeyboardRef={isUsingKeyboardRef}
-        dir={direction || 'ltr'}
+        dir={direction}
         open={open}
         onOpenChange={handleOpenChange}
         content={content}
@@ -411,8 +411,7 @@ type MenuContentImplPrivateProps = {
 };
 interface MenuContentImplProps
   extends MenuContentImplPrivateProps,
-    PopperContentProps,
-    Omit<DismissableLayerProps, 'onDismiss'> {
+    Omit<PopperContentProps, 'dir'> {
   /**
    * Whether focus should be trapped within the `MenuContent`
    * (default: false)
@@ -437,11 +436,6 @@ interface MenuContentImplProps
   disableOutsideScroll?: boolean;
 
   /**
-   * The direction of navigation between menu items.
-   */
-  dir?: RovingFocusGroupProps['dir'];
-
-  /**
    * Whether keyboard navigation should loop around
    * @defaultValue false
    */
@@ -452,6 +446,11 @@ interface MenuContentImplProps
    * (default: `true`)
    */
   portalled?: boolean;
+  disableOutsidePointerEvents?: DismissableLayerProps['disableOutsidePointerEvents'];
+  onEscapeKeyDown?: DismissableLayerProps['onEscapeKeyDown'];
+  onPointerDownOutside?: DismissableLayerProps['onPointerDownOutside'];
+  onFocusOutside?: DismissableLayerProps['onFocusOutside'];
+  onInteractOutside?: DismissableLayerProps['onInteractOutside'];
 }
 
 const MenuContentImpl = React.forwardRef<MenuContentImplElement, MenuContentImplProps>(
